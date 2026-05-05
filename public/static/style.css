@@ -1,0 +1,109 @@
+css:public/static/style.css
+:root {
+    --primary: #0062ff;
+    --accent: #00d4ff;
+    --bg: #0a0b10;
+    --glass: rgba(255, 255, 255, 0.05);
+    --text: #ffffff;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at top right, #1a1c2c, var(--bg));
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.glass-container {
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+header h1 {
+    font-weight: 900;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+header h1 span {
+    color: var(--primary);
+    display: block;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+.badge {
+    background: var(--primary);
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.main-card {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
+
+button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,98,255,0.4); }
+
+.status-msg {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--accent);
+    display: none;
+}
