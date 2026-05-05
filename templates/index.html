@@ -1,0 +1,75 @@
+html:templates/index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PinoySMM | Ultimate Non-Drop Engine</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="glass-container">
+        <header>
+            <div class="badge">NON-DROP SYSTEM v5.0</div>
+            <h1>🇵🇭 PinoySMM <span>Ultimate</span></h1>
+            <p>High-performance social growth for the Filipino market.</p>
+        </header>
+
+        <div class="main-card">
+            <div class="input-group">
+                <label>Target Link</label>
+                <input type="text" id="link" placeholder="https://facebook.com/yourpage">
+            </div>
+
+            <div class="input-group">
+                <label>SMM Service</label>
+                <select id="service">
+                    <option value="Real Likes">💎 Real Pinoy Likes (Non-Drop)</option>
+                    <option value="Premium Followers">👑 Premium Followers (High-Retention)</option>
+                    <option value="Taglish Comments">💬 Taglish Comments (Authentic)</option>
+                    <option value="Viral Shares">🚀 Viral Shares (Real Reach)</option>
+                    <option value="Elite Reviews">⭐ Elite Reviews (5-Star)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Quantity</label>
+                <input type="number" id="quantity" value="1000" step="100">
+            </div>
+
+            <button id="deploy-btn" onclick="deployOrder()">DEPLOY GROWTH</button>
+        </div>
+        <div id="status-msg" class="status-msg"></div>
+    </div>
+
+    <script>
+        async function deployOrder() {
+            const btn = document.getElementById('deploy-btn');
+            const status = document.getElementById('status-msg');
+            btn.innerText = "PROCESSING...";
+            
+            const payload = {
+                link: document.getElementById('link').value,
+                service: document.getElementById('service').value,
+                quantity: document.getElementById('quantity').value
+            };
+
+            try {
+                const response = await fetch('/api/order', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                status.innerText = result.message;
+                status.style.display = "block";
+            } catch (e) {
+                status.innerText = "Error: Connection Failed!";
+            } finally {
+                btn.innerText = "DEPLOY GROWTH";
+            }
+        }
+    </script>
+</body>
+</html>
