@@ -8,7 +8,16 @@ app = Flask(
     static_folder="../static"
 )
 
+# Database path for Vercel
 DB_PATH = os.getenv("DATABASE_URL", "/tmp/smm_database.db")
+
+# Ang "Millionaire" Data Store
+stats = {
+    "followers": 1000000,
+    "likes": 5000000,
+    "posts": 120,
+    "reach": 2500000
+}
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -43,7 +52,7 @@ init_db()
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html", stats=stats)
 
 @app.route("/api/order", methods=["POST"])
 def create_order():
@@ -77,3 +86,18 @@ def create_order():
             "status": "error",
             "message": str(e)
         }), 400
+
+@app.route("/update/<key>/<int:amount>", methods=["POST"])
+def update_stat(key, amount):
+    if key in stats:
+        stats[key] += amount
+        return jsonify({
+            "status": "success",
+            "key": key,
+            "new_value": stats[key]
+        })
+
+    return jsonify({
+        "status": "error",
+        "message": "Key not found"
+    }), 404
