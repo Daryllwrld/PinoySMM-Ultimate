@@ -4,40 +4,253 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PinoySMM | Ultimate Non-Drop Engine</title>
-    <link rel="stylesheet" href="/static/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0062ff;
+            --accent: #00d4ff;
+            --bg: #0a0b10;
+            --glass: rgba(255, 255, 255, 0.06);
+            --text: #ffffff;
+            --muted: #aaaaaa;
+            --danger: #ff4d4d;
+            --success: #00d4ff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 24px;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top right, #1a1c2c, var(--bg));
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .glass-container {
+            width: 100%;
+            max-width: 560px;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 22px;
+        }
+
+        .badge {
+            background: var(--primary);
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        header h1 {
+            font-weight: 900;
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem;
+        }
+
+        header h1 span {
+            color: var(--primary);
+            display: block;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        header p {
+            color: #b5b5b5;
+            margin: 0;
+        }
+
+        .stats-container,
+        .main-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+        }
+
+        .stats-container {
+            padding: 22px;
+            margin-bottom: 18px;
+        }
+
+        .stats-container h2 {
+            margin: 0 0 14px;
+            font-size: 1.35rem;
+        }
+
+        .stats-container span {
+            color: var(--accent);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .stat-box h3 {
+            margin: 0;
+            color: var(--accent);
+            font-size: 1.35rem;
+        }
+
+        .stat-box p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .main-card {
+            padding: 34px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0,98,255,0.6);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,98,255,0.4);
+        }
+
+        .small-button {
+            font-size: 0.9rem;
+            padding: 13px;
+            margin-top: 0;
+        }
+
+        .status-msg {
+            margin-top: 18px;
+            font-size: 0.95rem;
+            display: none;
+            padding: 14px;
+            border-radius: 12px;
+            background: rgba(0, 212, 255, 0.08);
+            color: var(--success);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .status-msg.error {
+            color: var(--danger);
+            border-color: rgba(255, 77, 77, 0.25);
+            background: rgba(255, 77, 77, 0.08);
+        }
+
+        @media (max-width: 520px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .main-card {
+                padding: 24px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <div class="glass-container">
         <header>
             <div class="badge">NON-DROP SYSTEM v5.0</div>
             <h1>🇵🇭 PinoySMM <span>Ultimate</span></h1>
-            <p>High-performance social growth for the Filipino market.</p>
+            <p>High-performance demo dashboard for the Filipino market.</p>
         </header>
 
         <div class="stats-container">
-            <h1>Followers: <span id="follower-count">{{ "{:,}".format(stats.followers) }}</span></h1>
-            <button onclick="addFollower()">Add 1 Follower</button>
+            <h2>Followers: <span id="follower-count">{{ "{:,}".format(stats.followers) }}</span></h2>
+            <button class="small-button" onclick="addFollower()">Add 1 Follower</button>
         </div>
 
         <div class="stats-grid">
             <div class="stat-box">
-                <h3>{{ "{:,}".format(stats.followers) }}</h3>
+                <h3 id="followers-grid-count">{{ "{:,}".format(stats.followers) }}</h3>
                 <p>Followers</p>
             </div>
 
             <div class="stat-box">
-                <h3>{{ "{:,}".format(stats.likes) }}</h3>
+                <h3 id="likes-count">{{ "{:,}".format(stats.likes) }}</h3>
                 <p>Likes</p>
             </div>
 
             <div class="stat-box">
-                <h3>{{ "{:,}".format(stats.posts) }}</h3>
+                <h3 id="posts-count">{{ "{:,}".format(stats.posts) }}</h3>
                 <p>Posts</p>
             </div>
 
             <div class="stat-box">
-                <h3>{{ "{:,}".format(stats.reach) }}</h3>
+                <h3 id="reach-count">{{ "{:,}".format(stats.reach) }}</h3>
                 <p>Reach</p>
             </div>
         </div>
@@ -51,17 +264,17 @@
             <div class="input-group">
                 <label>SMM Service</label>
                 <select id="service">
-                    <option value="Real Likes">💎 Real Pinoy Likes (Non-Drop)</option>
-                    <option value="Premium Followers">👑 Premium Followers (High-Retention)</option>
-                    <option value="Taglish Comments">💬 Taglish Comments (Authentic)</option>
-                    <option value="Viral Shares">🚀 Viral Shares (Real Reach)</option>
-                    <option value="Elite Reviews">⭐ Elite Reviews (5-Star)</option>
+                    <option value="Real Likes">💎 Real Pinoy Likes Demo</option>
+                    <option value="Premium Followers">👑 Premium Followers Demo</option>
+                    <option value="Taglish Comments">💬 Taglish Comments Demo</option>
+                    <option value="Viral Shares">🚀 Viral Shares Demo</option>
+                    <option value="Elite Reviews">⭐ Elite Reviews Demo</option>
                 </select>
             </div>
 
             <div class="input-group">
                 <label>Quantity</label>
-                <input type="number" id="quantity" value="1000" step="100">
+                <input type="number" id="quantity" value="1000" min="1" step="100">
             </div>
 
             <button id="deploy-btn" onclick="deployOrder()">DEPLOY GROWTH</button>
@@ -71,35 +284,74 @@
     </div>
 
     <script>
-        function addFollower() {
-            fetch("/update/followers/1", {
-                method: "POST"
-            })
-            .then(res => res.json())
-            .then(data => {
+        function formatNumber(value) {
+            return Number(value || 0).toLocaleString();
+        }
+
+        function showStatus(message, isError = false) {
+            const status = document.getElementById("status-msg");
+            status.innerText = message;
+            status.style.display = "block";
+
+            if (isError) {
+                status.classList.add("error");
+            } else {
+                status.classList.remove("error");
+            }
+        }
+
+        function updateStatsUI(stats) {
+            document.getElementById("follower-count").innerText = formatNumber(stats.followers);
+            document.getElementById("followers-grid-count").innerText = formatNumber(stats.followers);
+            document.getElementById("likes-count").innerText = formatNumber(stats.likes);
+            document.getElementById("posts-count").innerText = formatNumber(stats.posts);
+            document.getElementById("reach-count").innerText = formatNumber(stats.reach);
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch("/api/stats");
+                const data = await response.json();
+
                 if (data.status === "success") {
-                    document.getElementById("follower-count").innerText = data.new_value.toLocaleString();
+                    updateStatsUI(data.stats);
                 }
-            })
-            .catch(() => {
-                const status = document.getElementById("status-msg");
-                status.innerText = "Error: Could not update followers.";
-                status.style.display = "block";
-            });
+            } catch (error) {
+                showStatus("Error: Could not load stats.", true);
+            }
+        }
+
+        async function addFollower() {
+            try {
+                const response = await fetch("/update/followers/1", {
+                    method: "POST"
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.status !== "success") {
+                    showStatus(data.message || "Error: Could not update followers.", true);
+                    return;
+                }
+
+                updateStatsUI(data.stats);
+                showStatus("✅ Added 1 follower.");
+            } catch (error) {
+                showStatus("Error: Could not update followers.", true);
+            }
         }
 
         async function deployOrder() {
             const btn = document.getElementById("deploy-btn");
-            const status = document.getElementById("status-msg");
-
-            btn.innerText = "PROCESSING...";
-            status.style.display = "none";
 
             const payload = {
                 link: document.getElementById("link").value,
                 service: document.getElementById("service").value,
                 quantity: document.getElementById("quantity").value
             };
+
+            btn.innerText = "PROCESSING...";
+            btn.disabled = true;
 
             try {
                 const response = await fetch("/api/order", {
@@ -112,15 +364,22 @@
 
                 const result = await response.json();
 
-                status.innerText = result.message;
-                status.style.display = "block";
-            } catch (e) {
-                status.innerText = "Error: Connection Failed!";
-                status.style.display = "block";
+                if (!response.ok || result.status !== "success") {
+                    showStatus(result.message || "Error: Order failed.", true);
+                    return;
+                }
+
+                updateStatsUI(result.stats);
+                showStatus(result.message);
+            } catch (error) {
+                showStatus("Error: Connection failed.", true);
             } finally {
                 btn.innerText = "DEPLOY GROWTH";
+                btn.disabled = false;
             }
         }
+
+        loadStats();
     </script>
 </body>
 </html>
