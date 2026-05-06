@@ -1,4 +1,3 @@
-css:public/static/style.css
 :root {
     --primary: #0062ff;
     --accent: #00d4ff;
@@ -7,9 +6,13 @@ css:public/static/style.css
     --text: #ffffff;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    padding: 0;
+    padding: 24px;
     font-family: 'Inter', sans-serif;
     background: radial-gradient(circle at top right, #1a1c2c, var(--bg));
     color: var(--text);
@@ -37,6 +40,11 @@ header h1 span {
     font-size: 1.2rem;
     text-transform: uppercase;
     letter-spacing: 4px;
+}
+
+header p {
+    color: #b5b5b5;
+    margin-bottom: 24px;
 }
 
 .badge {
@@ -71,7 +79,8 @@ header h1 span {
     text-transform: uppercase;
 }
 
-input, select {
+input,
+select {
     width: 100%;
     padding: 14px;
     background: rgba(0,0,0,0.3);
@@ -83,7 +92,11 @@ input, select {
     transition: 0.3s;
 }
 
-input:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
+input:focus,
+select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+}
 
 button {
     width: 100%;
@@ -99,11 +112,17 @@ button {
     margin-top: 10px;
 }
 
-button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,98,255,0.4); }
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,98,255,0.4);
+}
 
 .status-msg {
     margin-top: 20px;
     font-size: 0.9rem;
     color: var(--accent);
     display: none;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(0, 212, 255, 0.08);
 }
