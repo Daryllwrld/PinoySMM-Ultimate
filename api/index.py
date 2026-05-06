@@ -2,7 +2,11 @@ from flask import Flask, render_template, request, jsonify
 import sqlite3
 import os
 
-app = Flask(__name__, template_folder="../templates")
+app = Flask(
+    __name__,
+    template_folder="../templates",
+    static_folder="../static"
+)
 
 DB_PATH = os.getenv("DATABASE_URL", "/tmp/smm_database.db")
 
@@ -23,6 +27,7 @@ def init_db():
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         """)
+
         conn.execute("""
             CREATE TABLE IF NOT EXISTS pinoy_pool (
                 user_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,6 +36,7 @@ def init_db():
                 activity_score INTEGER
             )
         """)
+
         conn.commit()
 
 init_db()
@@ -43,9 +49,16 @@ def home():
 def create_order():
     try:
         data = request.get_json()
+
         link = data.get("link")
         service = data.get("service")
         qty = int(data.get("quantity"))
+
+        if not link or not service or qty <= 0:
+            return jsonify({
+                "status": "error",
+                "message": "Please fill in all fields correctly."
+            }), 400
 
         with get_db() as conn:
             conn.execute(
