@@ -2,54 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Facebook Page Dashboard</title>
+    <title>Facebook Meta-Boost Panel</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; text-align: center; }
-        .fb-card { background: white; width: 500px; margin: 50px auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #ddd; }
-        .stat-row:last-child { border-bottom: none; }
-        .number { font-weight: bold; font-size: 1.2em; color: #1877f2; }
-        button { background: #1877f2; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        button:hover { background: #166fe5; }
+        body { font-family: 'Segoe UI', sans-serif; background: #000; color: white; text-align: center; padding: 40px; }
+        .meta-panel { max-width: 800px; margin: 0 auto; background: #1c1e21; padding: 40px; border-radius: 20px; border: 2px solid #1877f2; box-shadow: 0 0 30px rgba(24, 119, 242, 0.4); }
+        .url-section { margin-bottom: 30px; padding: 20px; background: #242526; border-radius: 10px; }
+        .url-input { width: 70%; padding: 10px; border-radius: 5px; border: none; font-size: 1.1em; }
+        .boost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .boost-card { background: #3a3b3c; padding: 20px; border-radius: 15px; transition: 0.3s; }
+        .boost-card:hover { background: #4e4f50; transform: scale(1.05); }
+        .count { display: block; font-size: 2.5em; font-weight: 800; color: #1877f2; }
+        .label { font-size: 1.2em; color: #b0b3b8; text-transform: uppercase; }
+        .btn-boost { background: #1877f2; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .btn-boost:hover { background: #166fe5; }
     </style>
 </head>
 <body>
 
-    <div class="fb-card">
-        <h1>Facebook Page Stats</h1>
+    <div class="meta-panel">
+        <h1>FB Meta-Boost Panel 🇵🇭</h1>
         
-        <!-- FOLLOWERS -->
-        <div class="stat-row">
-            <span>Followers: <span id="followers" class="number">{{ stats.followers }}</span></span>
-            <button onclick="updateStat('add_follower', 'followers')">+ Follow</button>
+        <div class="url-section">
+            <p>Target Facebook Page URL:</p>
+            <input type="text" id="pageUrl" class="url-input" value="{{ engine.page_url }}">
+            <button onclick="updateUrl()" class="btn-boost">Set URL</button>
         </div>
 
-        <!-- REVIEWS -->
-        <div class="stat-row">
-            <span>Reviews: <span id="reviews" class="number">{{ stats.reviews }}</span></span>
-            <button onclick="updateStat('add_review', 'reviews')">+ Review</button>
-        </div>
-
-        <!-- SHARES -->
-        <div class="stat-row">
-            <span>Shares: <span id="shares" class="number">{{ stats.shares }}</span></span>
-            <button onclick="updateStat('add_share', 'shares')">+ Share</button>
-        </div>
-
-        <!-- COMMENTS -->
-        <div class="stat-row">
-            <span>Comments: <span id="comments" class="number">{{ stats.comments }}</span></span>
-            <button onclick="updateStat('add_comment', 'comments')">+ Comment</button>
+        <div class="boost-grid">
+            <div class="boost-card">
+                <span class="label">Real Followers</span>
+                <span id="followers" class="count">{{ engine.followers }}</span>
+                <button onclick="boost('followers')" class="btn-boost">BOOST FOLLOWERS</button>
+            </div>
+            <div class="boost-card">
+                <span class="label">Real Reviews</span>
+                <span id="reviews" class="count">{{ engine.reviews }}</span>
+                <button onclick="boost('reviews')" class="btn-boost">BOOST REVIEWS</button>
+            </div>
+            <div class="boost-card">
+                <span class="label">Real Shares</span>
+                <span id="shares" class="count">{{ engine.shares }}</span>
+                <button onclick="boost('shares')" class="btn-boost">BOOST SHARES</button>
+            </div>
+            <div class="boost-card">
+                <span class="label">Real Comments</span>
+                <span id="comments" class="count">{{ engine.comments }}</span>
+                <button onclick="boost('comments')" class="btn-boost">BOOST COMMENTS</button>
+            </div>
         </div>
     </div>
 
     <script>
-    function updateStat(endpoint, elementId) {
-        fetch('/' + endpoint, { method: 'POST' })
+    function boost(feature) {
+        fetch('/boost/' + feature, { method: 'POST' })
         .then(res => res.json())
         .then(data => {
-            document.getElementById(elementId).innerText = data.new_count.toLocaleString();
+            document.getElementById(feature).innerText = data.new_count.toLocaleString();
         });
+    }
+
+    function updateUrl() {
+        const url = document.getElementById('pageUrl').value;
+        fetch('/set_url', { 
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({url: url}) 
+        })
+        .then(res => res.json())
+        .then(data => alert("Meta-Engine now targeting: " + data.url));
     }
     </script>
 </body>
